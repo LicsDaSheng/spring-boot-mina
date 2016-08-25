@@ -32,7 +32,7 @@ public class Test extends Thread{
 
         try {
 
-            server = new Socket("192.168.0.104", 7077);
+            server = new Socket("192.168.70.5", 7878);
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     server.getInputStream()));
             PrintWriter out = new PrintWriter(server.getOutputStream());

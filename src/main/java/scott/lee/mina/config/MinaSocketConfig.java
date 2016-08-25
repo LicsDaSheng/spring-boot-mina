@@ -12,7 +12,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import scott.lee.mina.core.ReceiveMinaHandle;
 
+import java.beans.PropertyEditor;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,7 +26,21 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "mina")
 public class MinaSocketConfig {
 
+    /**
+     * 监听端口号
+     */
     private int port;
+
+    private Map<Class<?>,Class<? extends PropertyEditor>> customEditors = new HashMap<>();
+
+//    @Bean
+//    public CustomEditorConfigurer customEditorConfigurer(){
+//        customEditors.put(SocketAddress.class, InetSocketAddressEditor.class);
+//        CustomEditorConfigurer customEditorConfigurer = new CustomEditorConfigurer();
+//        customEditorConfigurer.setCustomEditors(customEditors);
+//        return customEditorConfigurer;
+//    }
+
 
     @Bean(initMethod = "bind", destroyMethod = "unbind")
     public NioSocketAcceptor nioSocketAcceptor(ReceiveMinaHandle receiveMinaHandle,DefaultIoFilterChainBuilder defaultIoFilterChainBuilder) {
@@ -36,6 +52,8 @@ public class MinaSocketConfig {
         nioSocketAcceptor.setHandler(receiveMinaHandle);
         return nioSocketAcceptor;
     }
+
+
 
     @Bean
     public DefaultIoFilterChainBuilder defaultIoFilterChainBuilder(ExecutorFilter executorFilter, MdcInjectionFilter mdcInjectionFilter, ProtocolCodecFilter protocolCodecFilter, LoggingFilter loggingFilter) {
