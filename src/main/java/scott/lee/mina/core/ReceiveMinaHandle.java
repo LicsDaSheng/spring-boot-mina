@@ -14,18 +14,19 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ReceiveMinaHandle extends IoHandlerAdapter{
-    public final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private static Logger LOGGER = LoggerFactory.getLogger(ReceiveMinaHandle.class);
 
     @Override
     public void messageReceived(IoSession session, Object message)
             throws Exception {
         // TODO Auto-generated method stub
-        LOGGER.info("message :"+message);
+        LOGGER.info(String.format("message : %s", message));
     }
 
     @Override
     public void sessionClosed(IoSession session) throws Exception {
         // TODO Auto-generated method stub
+        LOGGER.info("session :" + session.getId());
         super.sessionClosed(session);
     }
 
@@ -33,6 +34,7 @@ public class ReceiveMinaHandle extends IoHandlerAdapter{
     public void sessionIdle(IoSession session, IdleStatus status)
             throws Exception {
         // TODO Auto-generated method stub
+        LOGGER.info(String.format("session [%s] ,status [%s]",session.getId(), status.toString()));
         super.sessionIdle(session, status);
     }
 }
